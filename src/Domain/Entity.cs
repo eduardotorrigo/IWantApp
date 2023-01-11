@@ -1,6 +1,6 @@
 ﻿namespace IWantApp.Domain;
 
-public abstract class Entity
+public abstract class Entity : Notifiable<Notification>
 {
     public Entity()
     {
