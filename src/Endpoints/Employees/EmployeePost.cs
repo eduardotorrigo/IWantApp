@@ -6,26 +6,22 @@ public class EmployeePost
     public static string[] Methods => new string[] { HttpMethod.Post.ToString() };
     public static Delegate Handle => Action;
 
-    public static IResult Action(EmployeeRequest employeeRequest, UserManager<IdentityUser> userManager)
+    [Authorize(Policy = "EmployeePolicy002")]
+    public static async Task<IResult> Action(EmployeeRequest employeeRequest, HttpContext http, UserCreator userCreator)
     {
-        var user = new IdentityUser{UserName = employeeRequest.Email, Email = employeeRequest.Email};
-        var result = userManager.CreateAsync(user, employeeRequest.Password).Result;
-
-        if (!result.Succeeded)
-            return Results.ValidationProblem(result.Errors.ConvertToProblemDetail());
-
+        var userId = http.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
         var userClaims = new List<Claim>
         {
             new Claim("EmployeeCode", employeeRequest.EmployeeCode),
-            new Claim("Name", employeeRequest.Name)
+            new Claim("Name", employeeRequest.Name),
+            new Claim("CreatedBy", userId),
         };
+        (IdentityResult identity, string userId) result =
+            await userCreator.Create(employeeRequest.Email, employeeRequest.Password, userClaims);
 
-        // var claimResult = userManager.AddClaimAsync(user, userClaims).Result;
-        // if (!claimResult.Succeeded)
-        //     return Results.BadRequest(claimResult.Errors.ConvertToProblemDetail());
+        if (!result.identity.Succeeded)
+            return Results.ValidationProblem(result.identity.Errors.ConvertToProblemDetails());
 
-        
-        return Results.Created($"/employees/{user.Id}", user.Id);
-
+        return Results.Created($"/employees/{result.userId}", result.userId);
     }
 }

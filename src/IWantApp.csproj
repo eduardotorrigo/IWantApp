@@ -14,14 +14,22 @@
 <Using Include="Microsoft.AspNetCore.Identity" />
 <Using Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
 <Using Include="System.Security.Claims" />
+<Using Include="System.Text" />
+<Using Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+<Using Include="Microsoft.IdentityModel.Tokens" />
+<Using Include="System.IdentityModel.Tokens.Jwt" />
+<Using Include="Microsoft.AspNetCore.Authorization" />
 
 <Using Include="IWantApp.Domain" />
 <Using Include="IWantApp.Infra.Data" />
 <Using Include="IWantApp.Endpoints.Categories" />
 <Using Include="IWantApp.Endpoints.Employees" />
+<Using Include="IWantApp.Endpoints.Security" />
+<Using Include="IWantApp.Domain.Users" />
 </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Flunt" Version="2.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.11">

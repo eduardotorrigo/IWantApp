@@ -9,7 +9,7 @@ public static class ProblemDetailExtensions
             .ToDictionary(g => g.Key, g => g.Select(x => x.Message).ToArray());
     }
     
-    public static Dictionary<string, string[]> ConvertToProblemDetail(this IEnumerable<IdentityError> error)
+    public static Dictionary<string, string[]> ConvertToProblemDetails(this IEnumerable<IdentityError> error)
     {
         var dictionary = new Dictionary<string, string[]>();
         dictionary.Add("Error", error.Select(e => e.Description).ToArray());
