@@ -1,6 +1,6 @@
 ﻿namespace IWantApp.Infra.Data;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {
     public DbSet<Category> Categories { get; set; }
     public DbSet<Product> Products { get; set; }
@@ -10,6 +10,8 @@ public class ApplicationDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        base.OnModelCreating(builder);
+        
         builder.Ignore<Notification>();
 
         builder.Entity<Category>().Property(c => c.Name).HasMaxLength(60).IsRequired();
