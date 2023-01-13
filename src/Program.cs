@@ -1,6 +1,4 @@
 
-using IWantApp.Endpoints.Products;
-
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionsString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -78,6 +76,8 @@ app.MapMethods(TokenPost.Template, TokenPost.Methods, TokenPost.Handle);
 app.MapMethods(ProductPost.Template, ProductPost.Methods, ProductPost.Handle);
 app.MapMethods(ProductGetAll.Template, ProductGetAll.Methods, ProductGetAll.Handle);
 app.MapMethods(ProductGetShowcases.Template, ProductGetShowcases.Methods, ProductGetShowcases.Handle);
+app.MapMethods(ClientPost.Template, ClientPost.Methods, ClientPost.Handle);
+app.MapMethods(ClientGet.Template, ClientGet.Methods, ClientGet.Handle);
 
 
 

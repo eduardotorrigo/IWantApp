@@ -25,7 +25,7 @@ public class ProductGetShowcases
 
 
 
-        var product = queryFilter.ToList();
+        var product = await queryFilter.ToListAsync();
 
         var result = product.Select(p => new ProductResponse
         (p.Name, p.Category.Name, p.Description, p.HasStock, p.Price, p.Active));
