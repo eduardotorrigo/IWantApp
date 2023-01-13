@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -20,7 +19,7 @@ namespace IWantApp.Infra.Data.Migrations
                     Name = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Active = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    CreateBy = table.Column<string>(type: "longtext", nullable: true)
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreateOn = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     EditedBy = table.Column<string>(type: "longtext", nullable: true)
@@ -45,7 +44,7 @@ namespace IWantApp.Infra.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     HasStock = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Active = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    CreateBy = table.Column<string>(type: "longtext", nullable: true)
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreateOn = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     EditedBy = table.Column<string>(type: "longtext", nullable: true)

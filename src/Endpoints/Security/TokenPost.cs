@@ -7,16 +7,16 @@ public class TokenPost
     public static Delegate Handle => Action;
 
     [AllowAnonymous]
-    public static async Task<IResult> Action(LoginRequest loginRequest, IConfiguration configuration, UserManager<IdentityUser> userManager)
+    public static async Task<IResult> Action(LoginRequest loginRequest, IConfiguration configuration, UserManager<IdentityUser> userManager, IWebHostEnvironment environment)
     {
-        var user = await userManager.FindByEmailAsync(loginRequest.Email);
+        var user = userManager.FindByEmailAsync(loginRequest.Email).Result;
         if (user == null)
             Results.BadRequest();
         if (!await userManager.CheckPasswordAsync(user, loginRequest.Password))
             Results.BadRequest();
 
 
-        var claims = await userManager.GetClaimsAsync(user);
+        var claims = userManager.GetClaimsAsync(user).Result;
 var subject = new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Email, loginRequest.Email),
@@ -27,10 +27,11 @@ var subject = new ClaimsIdentity(new Claim[]
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = subject,
-        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             Audience = configuration["JwtBearerTokenSettings:Audience"],
-            Issuer = configuration["JwtBearerTokenSettings:Issuer"]
-        };
+            Issuer = configuration["JwtBearerTokenSettings:Issuer"],
+            Expires = environment.IsDevelopment() || environment.IsStaging() ? DateTime.UtcNow.AddYears(1) : DateTime.UtcNow.AddMinutes(2)
+    };
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);
