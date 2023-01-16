@@ -1,4 +1,3 @@
-
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionsString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -27,6 +26,9 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("EmployeePolicy002", p =>
     p.RequireAuthenticatedUser()
     .RequireClaim("EmployeeCode", "002"));
+    options.AddPolicy("CpfPolicy", p =>
+    p.RequireAuthenticatedUser()
+    .RequireClaim("Cpf"));
 });
 builder.Services.AddAuthentication(x =>
 {
@@ -78,6 +80,8 @@ app.MapMethods(ProductGetAll.Template, ProductGetAll.Methods, ProductGetAll.Hand
 app.MapMethods(ProductGetShowcases.Template, ProductGetShowcases.Methods, ProductGetShowcases.Handle);
 app.MapMethods(ClientPost.Template, ClientPost.Methods, ClientPost.Handle);
 app.MapMethods(ClientGet.Template, ClientGet.Methods, ClientGet.Handle);
+app.MapMethods(OrderPost.Template, OrderPost.Methods, OrderPost.Handle);
+app.MapMethods(OrderGet.Template, OrderGet.Methods, OrderGet.Handle);
 
 
 

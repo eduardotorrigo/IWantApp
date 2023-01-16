@@ -9,12 +9,8 @@ public class ProductGetAll
     [AllowAnonymous]
     public static async Task<IResult> Action(ApplicationDbContext context)
     {
-        var product = await context.Products
-        .Include(c => c.Category)
-        .Where(p => p.HasStock && p.Category.Active)
-        .OrderBy(p => p.Name).ToListAsync();
-        var result = product.Select(p => new ProductResponse(p.Name, p.Category.Name, p.Description, p.HasStock, p.Price, p.Active));
-
-        return Results.Ok(result);
+        var products = context.Products.Include(p => p.Category).OrderBy(p => p.Name).ToList();
+        var results = products.Select(p => new ProductResponse(p.Id, p.Name, p.Category.Name, p.Description, p.HasStock, p.Price, p.Active));
+        return Results.Ok(results);
     }
 }
